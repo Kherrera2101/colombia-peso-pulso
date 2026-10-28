@@ -1,0 +1,26 @@
+{
+  "name": "Peso & Pulso",
+  "dataColors": [
+    "#4CE0B3",
+    "#F3C66B",
+    "#F28179",
+    "#8CAAF2"
+  ],
+  "background": "#0B1320",
+  "foreground": "#F0F3F5",
+  "tableAccent": "#4CE0B3",
+  "textClasses": {
+    "label": {
+      "fontFace": "Segoe UI",
+      "color": "#9BAFC2"
+    },
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#F0F3F5"
+    },
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#4CE0B3"
+    }
+  }
+}

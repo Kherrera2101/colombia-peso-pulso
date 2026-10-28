@@ -1,0 +1,51 @@
+{
+  "snapshot_date": "2026-10-28",
+  "main_period": "2015–2025",
+  "months": 132,
+  "quarters": 44,
+  "last_month": "2025-12-01",
+  "trm_dec_cop_usd": 3791.4719354839,
+  "trm_dec_yoy_pct": -13.5383498599,
+  "inflation_dec_yoy_pct": 5.1007730536,
+  "gdp_2025_growth_pct": 2.5698825289307115,
+  "trade_balance_2025_usd_m": -16375.722231259992,
+  "exports_2025_usd_m": 50201.49852341,
+  "imports_2025_usd_m": 66577.22075467,
+  "monthly_correlations": {
+    "inflation_yoy_pct": 0.07156262181211845,
+    "exports_yoy_pct": -0.4655724128390733,
+    "imports_yoy_pct": -0.3076630043523095,
+    "brent_yoy_pct": -0.472834694176697
+  },
+  "gdp_yoy_correlation": -0.06203191710173946,
+  "inflation_model": {
+    "n": 132,
+    "r_squared": 0.7733521238513508,
+    "adjusted_r_squared": 0.7395537563554996,
+    "hac_maxlags": 12,
+    "ljung_box_lag12_p": 0.20985660721561744,
+    "fx_lags_sum": 0.015294783509941923,
+    "fx_lags_sum_ci95": [
+      -0.0015149316435885598,
+      0.032104498663472404
+    ],
+    "interpretation": "Asociación acumulada entre los tres rezagos mensuales del dólar y la inflación mensual, en puntos porcentuales por 1% de variación cambiaria; no es un efecto causal.",
+    "observations": "Muestra mensual contigua; intervalos asintóticos normales. La sensibilidad sin 2020–2021 se limita a correlaciones descriptivas."
+  },
+  "regimes": [
+    {
+      "regime": "Apreciación",
+      "months": 45,
+      "mean_inflation_yoy_pct": 5.717158988388889,
+      "mean_exports_yoy_pct": 11.385788555195555,
+      "mean_imports_yoy_pct": 5.425784974346667
+    },
+    {
+      "regime": "Depreciación",
+      "months": 87,
+      "mean_inflation_yoy_pct": 5.775643789470116,
+      "mean_exports_yoy_pct": -2.0009581414425286,
+      "mean_imports_yoy_pct": 1.7150354887954022
+    }
+  ]
+}

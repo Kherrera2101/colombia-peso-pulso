@@ -1,0 +1,20 @@
+{
+  "server_version": "PostgreSQL 17.11",
+  "monthly": {
+    "rows": 132,
+    "indicators_reconciled": 7,
+    "max_absolute_error": 2.5981705675803823e-10
+  },
+  "quarterly": {
+    "rows": 44,
+    "indicators_reconciled": 4,
+    "max_absolute_error": 5.055600382775083e-11
+  },
+  "source_files_archived": 6,
+  "original_fx_intervals": 3025,
+  "annual": {
+    "rows": 11,
+    "indicators_reconciled": 6
+  },
+  "status": "passed"
+}

@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "monthly_observations": 132,
+  "quarterly_observations": 44,
+  "trm_calendar_days": 4656,
+  "duplicate_dates": 0,
+  "missing_main_sample": 0,
+  "trade_balance_max_error_usd_m": 4.8203219193965197e-11,
+  "monthly_coverage_end": "2026-09-01",
+  "common_monthly_end": "2026-08-01",
+  "quarterly_coverage_end": "2026-04-01",
+  "imputation": "none"
+}

@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "official_schemas_validated_files": 36,
+  "visuals": 27,
+  "model_field_references_checked": 32,
+  "model_tables": 3,
+  "dax_measures": 20,
+  "desktop_opened": false,
+  "dax_executed_in_desktop": false,
+  "scope": "Validación de esquemas PBIR y referencias del modelo; no sustituye apertura, actualización y renderizado en Power BI Desktop."
+}

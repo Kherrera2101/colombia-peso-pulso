@@ -1,0 +1,470 @@
+{
+  "name": "PesoPulso",
+  "compatibilityLevel": 1567,
+  "model": {
+    "culture": "es-CO",
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "sourceQueryCulture": "en-US",
+    "tables": [
+      {
+        "name": "Calendar",
+        "columns": [
+          {
+            "name": "date",
+            "dataType": "dateTime",
+            "sourceColumn": "date",
+            "summarizeBy": "none",
+            "isHidden": false,
+            "formatString": "yyyy-MM-dd",
+            "annotations": [
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "isKey": true
+          },
+          {
+            "name": "year",
+            "dataType": "int64",
+            "sourceColumn": "year",
+            "summarizeBy": "none",
+            "isHidden": false
+          },
+          {
+            "name": "month",
+            "dataType": "int64",
+            "sourceColumn": "month",
+            "summarizeBy": "none",
+            "isHidden": false
+          },
+          {
+            "name": "month_label",
+            "dataType": "string",
+            "sourceColumn": "month_label",
+            "summarizeBy": "none",
+            "isHidden": false
+          },
+          {
+            "name": "quarter_label",
+            "dataType": "string",
+            "sourceColumn": "quarter_label",
+            "summarizeBy": "none",
+            "isHidden": false
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Calendar",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = PostgreSQL.Database(Server, Database, [CreateNavigationProperties = false]),",
+                "    Data = Source{[Schema=\"pp_mart\", Item=\"calendar_main\"]}[Data]",
+                "in",
+                "    Data"
+              ]
+            }
+          }
+        ],
+        "dataCategory": "Time"
+      },
+      {
+        "name": "Monthly",
+        "columns": [
+          {
+            "name": "date",
+            "dataType": "dateTime",
+            "sourceColumn": "date",
+            "summarizeBy": "none",
+            "isHidden": true,
+            "formatString": "yyyy-MM-dd",
+            "annotations": [
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ]
+          },
+          {
+            "name": "trm_cop_usd",
+            "dataType": "double",
+            "sourceColumn": "trm_cop_usd",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "fx_days",
+            "dataType": "int64",
+            "sourceColumn": "fx_days",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "cpi_index",
+            "dataType": "double",
+            "sourceColumn": "cpi_index",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "inflation_mom_pct",
+            "dataType": "double",
+            "sourceColumn": "inflation_mom_pct",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "inflation_yoy_pct",
+            "dataType": "double",
+            "sourceColumn": "inflation_yoy_pct",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "trm_yoy_pct",
+            "dataType": "double",
+            "sourceColumn": "trm_yoy_pct",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "exports_usd_m",
+            "dataType": "double",
+            "sourceColumn": "exports_usd_m",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "imports_usd_m",
+            "dataType": "double",
+            "sourceColumn": "imports_usd_m",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "exports_yoy_pct",
+            "dataType": "double",
+            "sourceColumn": "exports_yoy_pct",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "imports_yoy_pct",
+            "dataType": "double",
+            "sourceColumn": "imports_yoy_pct",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "trade_balance_usd_m",
+            "dataType": "double",
+            "sourceColumn": "trade_balance_usd_m",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "brent_usd_bbl",
+            "dataType": "double",
+            "sourceColumn": "brent_usd_bbl",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "brent_days",
+            "dataType": "int64",
+            "sourceColumn": "brent_days",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "regime",
+            "dataType": "string",
+            "sourceColumn": "regime",
+            "summarizeBy": "none",
+            "isHidden": false
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Monthly",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = PostgreSQL.Database(Server, Database, [CreateNavigationProperties = false]),",
+                "    Data = Source{[Schema=\"pp_mart\", Item=\"monthly_main\"]}[Data]",
+                "in",
+                "    Data"
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "TRM promedio",
+            "expression": "DIVIDE(SUMX(Monthly, Monthly[trm_cop_usd] * Monthly[fx_days]), SUM(Monthly[fx_days]))",
+            "formatString": "#,0.00",
+            "description": "TRM ponderada por días calendario dentro de la selección.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "TRM último mes",
+            "expression": "VAR D = MAX(Monthly[date]) RETURN CALCULATE(MAX(Monthly[trm_cop_usd]), KEEPFILTERS(Monthly[date] = D))",
+            "formatString": "#,0.00",
+            "description": "Promedio de TRM del último mes de la selección.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Cambio TRM interanual",
+            "expression": "DIVIDE(AVERAGE(Monthly[trm_yoy_pct]), 100)",
+            "formatString": "0.0%;-0.0%;0.0%",
+            "description": "Media de variaciones interanuales; no es la variación de la TRM media anual.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Cambio TRM último mes",
+            "expression": "VAR D = MAX(Monthly[date]) RETURN CALCULATE(DIVIDE(MAX(Monthly[trm_yoy_pct]), 100), KEEPFILTERS(Monthly[date] = D))",
+            "formatString": "0.0%;-0.0%;0.0%",
+            "description": "Variación interanual del promedio mensual de TRM en el último mes.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Inflación interanual",
+            "expression": "DIVIDE(AVERAGE(Monthly[inflation_yoy_pct]), 100)",
+            "formatString": "0.0%",
+            "description": "Media de inflación interanual de los meses seleccionados.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Inflación último mes",
+            "expression": "VAR D = MAX(Monthly[date]) RETURN CALCULATE(DIVIDE(MAX(Monthly[inflation_yoy_pct]), 100), KEEPFILTERS(Monthly[date] = D))",
+            "formatString": "0.0%",
+            "description": "Inflación interanual del último mes seleccionado.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Inflación mensual",
+            "expression": "DIVIDE(AVERAGE(Monthly[inflation_mom_pct]), 100)",
+            "formatString": "0.00%",
+            "description": "Variación mensual del índice IPC.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Exportaciones FOB",
+            "expression": "SUM(Monthly[exports_usd_m])",
+            "formatString": "#,0.0",
+            "description": "Exportaciones de bienes en millones de USD FOB.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Importaciones FOB",
+            "expression": "SUM(Monthly[imports_usd_m])",
+            "formatString": "#,0.0",
+            "description": "Importaciones de bienes en millones de USD FOB.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Balanza de bienes",
+            "expression": "[Exportaciones FOB] - [Importaciones FOB]",
+            "formatString": "#,0.0;-#,0.0;0",
+            "description": "Exportaciones menos importaciones, ambas FOB; millones de USD.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Brent promedio",
+            "expression": "DIVIDE(SUMX(Monthly, Monthly[brent_usd_bbl] * Monthly[brent_days]), SUM(Monthly[brent_days]))",
+            "formatString": "0.00",
+            "description": "Precio Brent ponderado por observaciones hábiles, USD por barril.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Cambio exportaciones interanual",
+            "expression": "DIVIDE(AVERAGE(Monthly[exports_yoy_pct]), 100)",
+            "formatString": "0.0%;-0.0%;0.0%",
+            "description": "Media de variaciones interanuales nominales de exportaciones.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Cambio importaciones interanual",
+            "expression": "DIVIDE(AVERAGE(Monthly[imports_yoy_pct]), 100)",
+            "formatString": "0.0%;-0.0%;0.0%",
+            "description": "Media de variaciones interanuales nominales de importaciones.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Meses observados",
+            "expression": "COUNTROWS(Monthly)",
+            "formatString": "0",
+            "description": "Cantidad de meses en el contexto de filtro.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "PIB crecimiento interanual",
+            "expression": "DIVIDE(AVERAGE(Quarterly[gdp_yoy_pct]), 100)",
+            "formatString": "0.0%;-0.0%;0.0%",
+            "description": "Crecimiento real interanual; en más de un trimestre muestra la media.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "PIB último trimestre",
+            "expression": "VAR D = MAX(Quarterly[date]) RETURN CALCULATE(DIVIDE(MAX(Quarterly[gdp_yoy_pct]), 100), KEEPFILTERS(Quarterly[date] = D))",
+            "formatString": "0.0%;-0.0%;0.0%",
+            "description": "Crecimiento real interanual del último trimestre seleccionado, no del año completo.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "PIB variación trimestral SA",
+            "expression": "DIVIDE(AVERAGE(Quarterly[gdp_qoq_sa_pct]), 100)",
+            "formatString": "0.0%;-0.0%;0.0%",
+            "description": "Variación trimestral del PIB ajustado por estacionalidad y calendario.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Índice TRM",
+            "expression": "VAR D = MINX(ALLSELECTED(Calendar), Calendar[date]) VAR B = CALCULATE([TRM promedio], REMOVEFILTERS(Calendar), Calendar[date] = D) RETURN 100 * DIVIDE([TRM promedio], B)",
+            "formatString": "0.0",
+            "description": "Primer mes de la selección = 100.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Índice Brent",
+            "expression": "VAR D = MINX(ALLSELECTED(Calendar), Calendar[date]) VAR B = CALCULATE([Brent promedio], REMOVEFILTERS(Calendar), Calendar[date] = D) RETURN 100 * DIVIDE([Brent promedio], B)",
+            "formatString": "0.0",
+            "description": "Primer mes de la selección = 100.",
+            "displayFolder": "Indicadores"
+          },
+          {
+            "name": "Correlación TRM inflación",
+            "expression": "VAR S = FILTER(ADDCOLUMNS(VALUES(Calendar[month_label]), \"X\", CALCULATE(AVERAGE(Monthly[trm_yoy_pct])), \"Y\", CALCULATE(AVERAGE(Monthly[inflation_yoy_pct]))), NOT ISBLANK([X]) && NOT ISBLANK([Y])) VAR N = COUNTROWS(S) VAR SX = SUMX(S, [X]) VAR SY = SUMX(S, [Y]) VAR SXX = SUMX(S, [X] * [X]) VAR SYY = SUMX(S, [Y] * [Y]) VAR SXY = SUMX(S, [X] * [Y]) RETURN IF(N > 2, DIVIDE(N * SXY - SX * SY, SQRT(MAX(0, (N * SXX - SX * SX) * (N * SYY - SY * SY)))))",
+            "formatString": "0.00;-0.00;0.00",
+            "description": "Pearson r contemporáneo sobre pares de meses, recalculado al filtrar.",
+            "displayFolder": "Indicadores"
+          }
+        ]
+      },
+      {
+        "name": "Quarterly",
+        "columns": [
+          {
+            "name": "date",
+            "dataType": "dateTime",
+            "sourceColumn": "date",
+            "summarizeBy": "none",
+            "isHidden": true,
+            "formatString": "yyyy-MM-dd",
+            "annotations": [
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ]
+          },
+          {
+            "name": "gdp_real_original",
+            "dataType": "double",
+            "sourceColumn": "gdp_real_original",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "gdp_real_sa",
+            "dataType": "double",
+            "sourceColumn": "gdp_real_sa",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "gdp_yoy_pct",
+            "dataType": "double",
+            "sourceColumn": "gdp_yoy_pct",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "gdp_qoq_sa_pct",
+            "dataType": "double",
+            "sourceColumn": "gdp_qoq_sa_pct",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "trm_yoy_pct",
+            "dataType": "double",
+            "sourceColumn": "trm_yoy_pct",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "revision",
+            "dataType": "string",
+            "sourceColumn": "revision",
+            "summarizeBy": "none",
+            "isHidden": false
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Quarterly",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = PostgreSQL.Database(Server, Database, [CreateNavigationProperties = false]),",
+                "    Data = Source{[Schema=\"pp_mart\", Item=\"quarterly_main\"]}[Data]",
+                "in",
+                "    Data"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "4c48d9e1-2e27-5210-8e63-5e9a1231a95b",
+        "fromTable": "Monthly",
+        "fromColumn": "date",
+        "toTable": "Calendar",
+        "toColumn": "date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection",
+        "isActive": true
+      },
+      {
+        "name": "79f2b338-abd0-5f69-98a3-e79d9729a2c9",
+        "fromTable": "Quarterly",
+        "fromColumn": "date",
+        "toTable": "Calendar",
+        "toColumn": "date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection",
+        "isActive": true
+      }
+    ],
+    "expressions": [
+      {
+        "name": "Server",
+        "kind": "m",
+        "expression": "\"127.0.0.1:5433\" meta [IsParameterQuery=true, Type=\"Text\", IsParameterQueryRequired=true]"
+      },
+      {
+        "name": "Database",
+        "kind": "m",
+        "expression": "\"peso_pulso\" meta [IsParameterQuery=true, Type=\"Text\", IsParameterQueryRequired=true]"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      }
+    ]
+  }
+}

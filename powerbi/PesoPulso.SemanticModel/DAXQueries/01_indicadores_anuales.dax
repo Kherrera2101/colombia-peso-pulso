@@ -1,0 +1,9 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+    Calendar[year],
+    "TRM promedio", [TRM promedio],
+    "Exportaciones USD M", [Exportaciones FOB],
+    "Importaciones USD M", [Importaciones FOB],
+    "Balanza USD M", [Balanza de bienes]
+)
+ORDER BY Calendar[year]

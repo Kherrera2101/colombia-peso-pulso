@@ -1,0 +1,5 @@
+x,y,sample,n,pearson_r,spearman_r
+trm_yoy_pct,gdp_yoy_pct,2015–2025,44,-0.0620319171,0.2393234672
+trm_yoy_pct,gdp_yoy_pct,Sin 2020–2021,36,0.2449007369,0.5238095238
+trm_qoq_pct,gdp_qoq_sa_pct,2015–2025,44,-0.2214183387,-0.0222692037
+trm_qoq_pct,gdp_qoq_sa_pct,Sin 2020–2021,36,0.2284742040,0.2059202059

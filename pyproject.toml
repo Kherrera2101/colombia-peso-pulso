@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "peso-pulso"
+version = "1.0.0"
+description = "Tasa de cambio, precios y actividad económica de Colombia"
+requires-python = ">=3.12"
+dependencies = [
+  "pandas>=2.2,<4", "numpy>=2,<3", "requests>=2.32,<3",
+  "openpyxl>=3.1,<4", "xlrd>=2.0,<3", "matplotlib>=3.9,<4",
+  "statsmodels>=0.15,<0.16", "scipy>=1.14,<2", "psycopg[binary]>=3.2,<4"
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "jsonschema>=4.23,<5"]
+
+[project.scripts]
+peso-pulso = "peso_pulso.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

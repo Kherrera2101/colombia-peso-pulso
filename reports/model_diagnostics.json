@@ -1,0 +1,58 @@
+{
+  "models": {
+    "full": {
+      "n": 132,
+      "r_squared": 0.7733521238513508,
+      "adjusted_r_squared": 0.7395537563554996,
+      "hac_maxlags": 12,
+      "ljung_box_lag12_p": 0.20985660721561744,
+      "fx_lags_sum": 0.015294783509941923,
+      "fx_lags_sum_ci95": [
+        -0.0015149316435885598,
+        0.032104498663472404
+      ],
+      "interpretation": "Asociación acumulada entre los tres rezagos mensuales del dólar y la inflación mensual, en puntos porcentuales por 1% de variación cambiaria; no es un efecto causal.",
+      "observations": "Muestra mensual contigua; intervalos asintóticos normales. La sensibilidad sin 2020–2021 se limita a correlaciones descriptivas."
+    }
+  },
+  "adf": [
+    {
+      "series": "log_trm",
+      "adf_statistic": -2.586689937834145,
+      "p_value": 0.286057043353554,
+      "lags": 1,
+      "n": 130,
+      "deterministic": "ct"
+    },
+    {
+      "series": "log_cpi",
+      "adf_statistic": -3.2340841714111392,
+      "p_value": 0.07782144361579255,
+      "lags": 13,
+      "n": 118,
+      "deterministic": "ct"
+    },
+    {
+      "series": "trm_mom_pct",
+      "adf_statistic": -9.971580538899738,
+      "p_value": 2.2331033390992634e-17,
+      "lags": 0,
+      "n": 131,
+      "deterministic": "c"
+    },
+    {
+      "series": "inflation_mom_pct",
+      "adf_statistic": -1.8408583922800466,
+      "p_value": 0.3603734811619052,
+      "lags": 13,
+      "n": 118,
+      "deterministic": "c"
+    }
+  ],
+  "limits": [
+    "Modelo asociativo; no identifica causalidad.",
+    "Variables omitidas: política monetaria, alimentos, regulados y condiciones globales.",
+    "La corrección HAC no elimina sesgo por endogeneidad ni garantiza estacionariedad.",
+    "Los valores p de correlaciones con muchos rezagos no se utilizan como descubrimientos confirmatorios."
+  ]
+}
